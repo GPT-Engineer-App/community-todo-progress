@@ -12,7 +12,9 @@ const Navigation = () => {
         <Link as={RouterLink} to="/admin" px={2}>
           Admin
         </Link>
-        {/* Add more navigation links here */}
+        <Link as={RouterLink} to="/forum" px={2}>
+          Forum
+        </Link>
       </Box>
     </Flex>
   );

@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Index from "./pages/Index.jsx";
 import Navigation from "./components/Navigation";
 import Admin from "./pages/Admin";
+import Forum from "./pages/Forum";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/admin" element={<Admin />} />
-        // Add more routes for additional threads or categories
+        <Route path="/forum" element={<Forum />} />
       </Routes>
     </Router>
   );
