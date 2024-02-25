@@ -21,16 +21,20 @@ const Index = () => {
   const [selectedTodo, setSelectedTodo] = useState(null);
 
   // Placeholder function for adding a to-do item
-  const handleAddTodo = () => {
+  const [descriptionValue, setDescriptionValue] = useState("");
+  const handleAddTodo = (event) => {
+    event.preventDefault();
     // Here you would add the to-do to Firebase
     const newTodo = {
       id: todos.length + 1,
       title: inputValue,
+      description: descriptionValue,
       progress: 0,
       comments: [],
     };
     setTodos([...todos, newTodo]);
     setInputValue("");
+    setDescriptionValue("");
     toast({
       title: "Todo added.",
       description: "We've added your todo for the community.",
@@ -73,12 +77,15 @@ const Index = () => {
   return (
     <VStack spacing={4}>
       <Heading>Community Todo List</Heading>
-      <Flex>
-        <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Add a new feature request..." />
-        <Button leftIcon={<FaPlus />} ml={2} onClick={handleAddTodo}>
-          Add
-        </Button>
-      </Flex>
+      <Box as="form" onSubmit={handleAddTodo}>
+        <VStack spacing={3}>
+          <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Title of the feature request..." />
+          <Textarea value={descriptionValue} onChange={(e) => setDescriptionValue(e.target.value)} placeholder="Be very clear of what you mean..." required />
+          <Button leftIcon={<FaPlus />} type="submit">
+            Publish
+          </Button>
+        </VStack>
+      </Box>
       <Stack spacing={3}>
         {todos.map((todo) => (
           <Box key={todo.id} p={5} shadow="md" borderWidth="1px">
