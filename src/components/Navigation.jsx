@@ -15,6 +15,9 @@ const Navigation = () => {
         <Link as={RouterLink} to="/forum" px={2}>
           Forum
         </Link>
+        <Link as={RouterLink} to="/login" px={2}>
+          Login
+        </Link>
       </Box>
     </Flex>
   );
