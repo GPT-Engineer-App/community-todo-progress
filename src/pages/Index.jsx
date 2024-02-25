@@ -104,6 +104,11 @@ const Index = () => {
               </Flex>
             )}
             <Progress value={todo.progress} mt={2} />
+            <Text mt={2}>{todo.description}</Text>
+            <Flex justifyContent="space-between" alignItems="center" mt={2}>
+              <IconButton aria-label="Like todo" icon={<FaThumbsUp />} onClick={() => handleAction(todo.id, "like")} />
+              {!isAdmin && <IconButton aria-label="Comment on todo" icon={<FaCommentAlt />} onClick={() => handleOpenComments(todo)} />}
+            </Flex>
           </Box>
         ))}
       </Stack>
