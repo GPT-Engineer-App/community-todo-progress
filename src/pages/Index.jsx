@@ -2,7 +2,18 @@ import React, { useState } from "react";
 import { Box, Button, Flex, Heading, Input, Text, VStack, useToast, Progress, IconButton, Stack, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Textarea, Avatar } from "@chakra-ui/react";
 import { FaPlus, FaThumbsUp, FaCommentAlt } from "react-icons/fa";
 
+const isAdmin = true; // This should be determined by user authentication logic
+
 const Index = () => {
+  // ... (other component code remains unchanged)
+
+  // Function to handle progress change for admin
+  const handleProgressChange = (todoId, newProgress) => {
+    // Here you would update the progress of the to-do in Firebase
+    setTodos(todos.map((todo) => (todo.id === todoId ? { ...todo, progress: newProgress } : todo)));
+  };
+
+  // ... (the rest of the Index component remains unchanged)
   const [todos, setTodos] = useState([]); // This would be replaced with your Firebase data
   const [inputValue, setInputValue] = useState("");
   const toast = useToast();
@@ -71,11 +82,20 @@ const Index = () => {
       <Stack spacing={3}>
         {todos.map((todo) => (
           <Box key={todo.id} p={5} shadow="md" borderWidth="1px">
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text>{todo.title}</Text>
-              <IconButton aria-label="Like todo" icon={<FaThumbsUp />} onClick={() => handleAction(todo.id, "like")} />
-              <IconButton aria-label="Comment on todo" icon={<FaCommentAlt />} onClick={() => handleOpenComments(todo)} />
-            </Flex>
+            {isAdmin ? (
+              // Allowing admin to edit the progress of a todo
+              <Flex justifyContent="space-between" alignItems="center">
+                <Text>{todo.title}</Text>
+                <Input type="number" value={todo.progress} onChange={(e) => handleProgressChange(todo.id, e.target.value)} />
+              </Flex>
+            ) : (
+              // Regular user functionality to like and comment on a todo
+              <Flex justifyContent="space-between" alignItems="center">
+                <Text>{todo.title}</Text>
+                <IconButton aria-label="Like todo" icon={<FaThumbsUp />} onClick={() => handleAction(todo.id, "like")} />
+                <IconButton aria-label="Comment on todo" icon={<FaCommentAlt />} onClick={() => handleOpenComments(todo)} />
+              </Flex>
+            )}
             <Progress value={todo.progress} mt={2} />
           </Box>
         ))}
